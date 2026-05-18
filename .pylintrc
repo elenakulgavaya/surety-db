@@ -35,3 +35,4 @@ good-names=i,
 max-args=8
 min-public-methods=0
 max-public-methods=22
+max-positional-arguments=14
