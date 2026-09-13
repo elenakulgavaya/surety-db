@@ -5,10 +5,10 @@ from surety import Dictionary, Field
 class DbModel(Dictionary):
     __table__ = None
 
-    def __init__(self, is_custom=False, is_full=False):
+    def __init__(self, is_custom=False, is_full=False, _with_data=True):
         self.is_custom = is_custom
         self.save_kwargs(locals())
-        super().__init__(is_full=is_full)
+        super().__init__(is_full=is_full, _with_data=_with_data)  # pylint: disable=unexpected-keyword-arg
 
     @classmethod
     def get_table_name(cls):
