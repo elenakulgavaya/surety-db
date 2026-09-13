@@ -17,7 +17,7 @@ authors = [
 dynamic = ["version"]
 
 dependencies = [
-    "surety>=0.0.4,<1.0",
+    "surety>=0.0.23,<1.0",
     "surety-diff>=0.0.1,<1.0",
     "SQLAlchemy",
     "waiting"
