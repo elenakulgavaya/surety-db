@@ -6,7 +6,7 @@ from pytz import timezone
 
 from surety import Int, String
 from surety.diff import compare
-from surety.db.types.common import DbTimestamp
+from surety.db.types.common import DbTimestamp, DBJsonRaw
 from surety.db.types.mysql import DbBool, DbJsonArray as MysqlArray
 from surety.db.types.postgres import DbUuid
 from surety.db.types.cassandra import (
@@ -113,6 +113,18 @@ def test_cassandra_json_dict_to_db():
         CustomDict.Id.name: 1,
         CustomDict.Name.name: 'test'
     }).with_values(None).to_db() == json.dumps({'id':1, 'name':'test'}).encode('utf-8')
+
+
+def test_db_json_raw_with_bytes():
+    raw = DBJsonRaw()
+    raw.with_values(json.dumps({'key': 'value'}).encode('utf-8'))
+    assert raw.value == {'key': 'value'}
+
+
+def test_db_json_raw_to_db():
+    raw = DBJsonRaw()
+    raw.with_values({'key': 'value'}).with_values(None)
+    assert raw.to_db() == json.dumps({'key': 'value'}).encode('utf-8')
 
 
 def test_cassandra_json_dict_with_bytes():

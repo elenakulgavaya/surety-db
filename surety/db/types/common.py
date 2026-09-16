@@ -21,6 +21,9 @@ class DbTimestamp(Field):
 
 
 class DBBaseJson(Dictionary):
+    def with_values(self, values):
+        return self.apply_values(values)
+
     def apply_values(self, values):
         if isinstance(values, bytes):
             values = values.decode('utf-8')
@@ -29,12 +32,15 @@ class DBBaseJson(Dictionary):
             values = json.loads(values)
 
         if values is not None:
-            return super().apply_values(values)
+            return super().with_values(values)
 
         return self
 
 
 class DBBaseArray(Array):
+    def with_values(self, values):
+        return self.apply_values(values)
+
     def apply_values(self, values):
         if isinstance(values, bytes):
             values = values.decode('utf-8')
@@ -43,12 +49,15 @@ class DBBaseArray(Array):
             values = json.loads(values)
 
         if values is not None:
-            return super().apply_values(values)
+            return super().with_values(values)
 
         return self
 
 
 class DBJsonRaw(Raw):
+    def with_values(self, values):
+        return self.apply_values(values)
+
     def apply_values(self, values):
         if isinstance(values, bytes):
             values = values.decode('utf-8')
@@ -57,7 +66,7 @@ class DBJsonRaw(Raw):
             values = json.loads(values)
 
         if values is not None:
-            return super.apply_values(values)
+            return super().with_values(values)
 
         return self
 
