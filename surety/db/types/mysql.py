@@ -9,7 +9,7 @@ class DbBool(Bool):
     def to_db(self):
         return int(self.value)
 
-    def with_values(self, values):
+    def apply_values(self, values):
         if isinstance(values, int):
             values = bool(values)
 
