@@ -49,7 +49,7 @@ class DBBaseArray(Array):
 
 
 class DBJsonRaw(Raw):
-    def apply_values(self, values):
+    def with_values(self, values):
         if isinstance(values, bytes):
             values = values.decode('utf-8')
 
@@ -57,7 +57,7 @@ class DBJsonRaw(Raw):
             values = json.loads(values)
 
         if values is not None:
-            return super().apply_values(values)
+            return super().with_values(values)
 
         return self
 
