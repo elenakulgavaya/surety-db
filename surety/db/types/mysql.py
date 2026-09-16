@@ -10,6 +10,9 @@ class DbBool(Bool):
         return int(self.value)
 
     def with_values(self, values):
+        return self.apply_values(values)
+
+    def apply_values(self, values):
         if isinstance(values, int):
             values = bool(values)
 

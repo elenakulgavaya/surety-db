@@ -2,7 +2,7 @@ import json
 
 from pytz import timezone
 
-from surety import Array, Field, Dictionary
+from surety import Array, Field, Dictionary, Raw
 from surety.sdk import dates
 
 
@@ -21,7 +21,7 @@ class DbTimestamp(Field):
 
 
 class DBBaseJson(Dictionary):
-    def with_values(self, values):
+    def apply_values(self, values):
         if isinstance(values, bytes):
             values = values.decode('utf-8')
 
@@ -29,12 +29,26 @@ class DBBaseJson(Dictionary):
             values = json.loads(values)
 
         if values is not None:
-            return super().with_values(values)
+            return super().apply_values(values)
 
         return self
 
 
 class DBBaseArray(Array):
+    def apply_values(self, values):
+        if isinstance(values, bytes):
+            values = values.decode('utf-8')
+
+        if isinstance(values, str):
+            values = json.loads(values)
+
+        if values is not None:
+            return super().apply_values(values)
+
+        return self
+
+
+class DBJsonRaw(Raw):
     def with_values(self, values):
         if isinstance(values, bytes):
             values = values.decode('utf-8')
@@ -46,3 +60,6 @@ class DBBaseArray(Array):
             return super().with_values(values)
 
         return self
+
+    def to_db(self):
+        return json.dumps(self.value).encode('utf-8')
